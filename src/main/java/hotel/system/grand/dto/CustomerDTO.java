@@ -10,7 +10,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerDTO {
-   private Integer id;
    private String customerName;
    private String age;
    private String address;

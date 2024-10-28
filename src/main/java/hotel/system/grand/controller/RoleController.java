@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/role")
+@CrossOrigin
 public class RoleController {
     final RoleService roleService;
     @PostMapping("/add")
@@ -32,6 +33,10 @@ public class RoleController {
     @GetMapping("/get-all")
     public List<RoleDTO> getAllCustomer(){
         return roleService.getAll();
+    }
+    @GetMapping("/search-by-roleName/{roleName}")
+    public List<RoleDTO> getRoleDtoByRoleName(@PathVariable String roleName){
+        return roleService.getRoleDtoByRoleName(roleName);
     }
 
 }

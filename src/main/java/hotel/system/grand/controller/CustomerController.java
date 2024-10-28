@@ -8,12 +8,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/customer")
+@RequiredArgsConstructor
+@CrossOrigin
 public class CustomerController {
     final CustomerService customerService;
+
     @PostMapping("/add")
     public void addCustomer(@RequestBody CustomerDTO customerDTO){
+        System.out.println("aaaaa");
         customerService.addCustomer(customerDTO);
     }
     @PutMapping("/update")
@@ -29,7 +32,13 @@ public class CustomerController {
 
     @GetMapping("/get-all")
     public List<CustomerDTO> getAllCustomer(){
+        System.out.println("okkkkkkkkkkkkkkkkkk");
         return customerService.getAll();
     }
+    @GetMapping("/search-by-customerName/{customerName}")
+    public List<CustomerDTO> searchByCustomerName(@PathVariable String customerName){
+        return customerService.searchByCustomerName(customerName);
+    }
+
 
 }

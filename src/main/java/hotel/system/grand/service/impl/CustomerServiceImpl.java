@@ -6,10 +6,12 @@ import hotel.system.grand.repository.CustomerRepository;
 import hotel.system.grand.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 @RequiredArgsConstructor
+@Service
 public class CustomerServiceImpl implements CustomerService {
     final CustomerRepository customerRepository;
     final ModelMapper mapper;
@@ -27,6 +29,24 @@ public class CustomerServiceImpl implements CustomerService {
     public List<CustomerDTO> getAll() {
         List<CustomerDTO> customerDTOList=new ArrayList<>();
         customerRepository.findAll().forEach(customerEntity -> {
+            customerDTOList.add(mapper.map(customerEntity,CustomerDTO.class));
+        });
+        return customerDTOList;
+    }
+
+    @Override
+    public List<CustomerDTO> searchByCustomerName(String customerName) {
+        List<CustomerDTO> customerDTOList=new ArrayList<>();
+        customerRepository.findByCustomerName(customerName).forEach(customerEntity -> {
+            customerDTOList.add(mapper.map(customerEntity,CustomerDTO.class));
+        });
+        return customerDTOList;
+    }
+
+    @Override
+    public List<CustomerDTO> searchByContact(String contact) {
+        List<CustomerDTO> customerDTOList=new ArrayList<>();
+        customerRepository.findByContact(contact).forEach(customerEntity -> {
             customerDTOList.add(mapper.map(customerEntity,CustomerDTO.class));
         });
         return customerDTOList;

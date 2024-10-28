@@ -9,11 +9,13 @@ import hotel.system.grand.repository.RoleRepository;
 import hotel.system.grand.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
+@Service
 public class RoleServiceImpl implements RoleService {
     final RoleRepository roleRepository;
     final ModelMapper mapper;
@@ -35,4 +37,15 @@ public class RoleServiceImpl implements RoleService {
         });
         return roleDTOList;
     }
+
+    @Override
+    public List<RoleDTO> getRoleDtoByRoleName(String roleName) {
+        List<RoleDTO> roleDTOList=new ArrayList<>();
+        roleRepository.findByRoleName(roleName).forEach(roleEntity -> {
+            roleDTOList.add(mapper.map(roleEntity,RoleDTO.class));
+        });
+        return roleDTOList;
+    }
+
+
 }

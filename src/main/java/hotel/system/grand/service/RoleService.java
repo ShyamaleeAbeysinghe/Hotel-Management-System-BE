@@ -6,11 +6,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 public interface RoleService {
     void addRole(RoleDTO customerDTO);
 
     Boolean deleteRole(Integer id);
 
     List<RoleDTO> getAll();
+
+
+    List<RoleDTO> getRoleDtoByRoleName(String roleName);
 }

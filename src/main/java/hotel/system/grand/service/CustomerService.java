@@ -5,11 +5,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 public interface CustomerService {
     void addCustomer(CustomerDTO customerDTO);
 
     Boolean deleteCustomer(Integer id);
 
     List<CustomerDTO> getAll();
+
+    List<CustomerDTO> searchByCustomerName(String customerName);
+
+    List<CustomerDTO> searchByContact(String contact);
+
+
 }
