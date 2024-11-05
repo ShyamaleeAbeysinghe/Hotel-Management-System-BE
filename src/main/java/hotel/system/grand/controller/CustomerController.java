@@ -27,7 +27,6 @@ public class CustomerController {
     @DeleteMapping("/delete")
     public Boolean deleteByCustomerId(@RequestParam Integer id){
        return customerService.deleteCustomer(id);
-
     }
 
     @GetMapping("/get-all")
@@ -38,6 +37,14 @@ public class CustomerController {
     @GetMapping("/search-by-customerName/{customerName}")
     public List<CustomerDTO> searchByCustomerName(@PathVariable String customerName){
         return customerService.searchByCustomerName(customerName);
+    }
+    @GetMapping("/search-by-contact/{contact}")
+    public List<CustomerDTO> searchByontact(@PathVariable String contact){
+        return customerService.searchByontact(contact);
+    }
+    @GetMapping("/search-by-email/{email}")
+    public List<CustomerDTO> searchByEmail(@PathVariable String email){
+        return customerService.searchByEmail(email);
     }
 
 

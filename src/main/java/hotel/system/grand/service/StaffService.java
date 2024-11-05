@@ -10,4 +10,10 @@ public interface StaffService {
     Boolean deleteById(Integer id);
 
     List<StaffDTO> getAll();
+
+    List<StaffDTO> searchStaffDtoByFirstName(String firstName);
+
+    List<StaffDTO> searchStaffDtoByContact(String contact);
+
+    List<StaffDTO> searchStaffDtoByNic(String nic);
 }

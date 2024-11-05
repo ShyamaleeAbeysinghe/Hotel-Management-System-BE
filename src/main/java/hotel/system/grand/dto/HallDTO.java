@@ -13,10 +13,11 @@ import lombok.ToString;
 public class HallDTO {
 
     private  Integer id;
+    private String img;
     private String hallName;
-    private String capasity;
     private Double price;
-    private String description;
+    private Integer chairs;
+    private Integer tables;
     private Integer status;
 
 }

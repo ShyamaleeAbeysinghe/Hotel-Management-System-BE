@@ -14,6 +14,5 @@ public interface RoleService {
 
     List<RoleDTO> getAll();
 
-
     List<RoleDTO> getRoleDtoByRoleName(String roleName);
 }

@@ -25,6 +25,7 @@ public class StaffEntity {
     private String password;
     private Integer status;
 
+
     @ManyToOne
     @JoinColumn(name = "role_id",nullable = false)
     private RoleEntity roleEntity;

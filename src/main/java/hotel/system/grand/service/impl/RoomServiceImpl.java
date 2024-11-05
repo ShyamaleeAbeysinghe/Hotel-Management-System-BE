@@ -36,4 +36,22 @@ public class RoomServiceImpl implements RoomService {
         });
         return roomDTOList;
     }
+
+    @Override
+    public List<RoomDTO> searchRoomDtoByRoomName(String roomName) {
+        List<RoomDTO> roomDTOList=new ArrayList<>();
+        roomRepository.findByRoomName(roomName).forEach(roomEntity -> {
+            roomDTOList.add(mapper.map(roomEntity,RoomDTO.class));
+        });
+        return roomDTOList;
+    }
+
+    @Override
+    public List<RoomDTO> searchRoomDtoByRoomNo(Integer roomNo) {
+        List<RoomDTO> roomDTOList=new ArrayList<>();
+        roomRepository.findByRoomNo(roomNo).forEach(roomEntity -> {
+            roomDTOList.add(mapper.map(roomEntity,RoomDTO.class));
+        });
+        return roomDTOList;
+    }
 }

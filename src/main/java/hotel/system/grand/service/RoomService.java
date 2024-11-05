@@ -10,4 +10,8 @@ public interface RoomService {
     Boolean deleteRoom(Integer id);
 
     List<RoomDTO> getAll();
+
+    List<RoomDTO> searchRoomDtoByRoomName(String roomName);
+
+    List<RoomDTO> searchRoomDtoByRoomNo(Integer roomNo);
 }

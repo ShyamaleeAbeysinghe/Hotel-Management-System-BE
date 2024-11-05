@@ -12,9 +12,12 @@ import lombok.ToString;
 @NoArgsConstructor
 public class RoomDTO {
     private Integer id;
+    private String img;
     private String roomName;
+    private Integer roomNo;
     private Double price;
-    private String roomType;
+    private String size;
+    private Integer beds;
     private String description;
     private Integer status;
 }

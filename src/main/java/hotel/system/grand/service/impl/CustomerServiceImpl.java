@@ -44,11 +44,21 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<CustomerDTO> searchByContact(String contact) {
+    public List<CustomerDTO> searchByontact(String contact) {
         List<CustomerDTO> customerDTOList=new ArrayList<>();
         customerRepository.findByContact(contact).forEach(customerEntity -> {
             customerDTOList.add(mapper.map(customerEntity,CustomerDTO.class));
         });
         return customerDTOList;
+    }
+
+    @Override
+    public List<CustomerDTO> searchByEmail(String email) {
+       List<CustomerDTO> customerDTOList=new ArrayList<>();
+       customerRepository.findByEmail(email).forEach(customerEntity -> {
+           customerDTOList.add(mapper.map(customerEntity,CustomerDTO.class));
+       });
+
+       return customerDTOList;
     }
 }

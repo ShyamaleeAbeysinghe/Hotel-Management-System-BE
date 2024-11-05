@@ -37,4 +37,31 @@ public class StaffServiceImpl implements StaffService {
         return staffDTOList;
     }
 
+    @Override
+    public List<StaffDTO> searchStaffDtoByFirstName(String firstName) {
+        List<StaffDTO> staffDTOList=new ArrayList<>();
+        staffRepository.findByFirstName(firstName).forEach(staffEntity -> {
+            staffDTOList.add(mapper.map(staffEntity,StaffDTO.class));
+        });
+        return staffDTOList;
+    }
+
+    @Override
+    public List<StaffDTO> searchStaffDtoByContact(String contact) {
+        List<StaffDTO> staffDTOList=new ArrayList<>();
+        staffRepository.findByContact(contact).forEach(staffEntity -> {
+            staffDTOList.add(mapper.map(staffEntity,StaffDTO.class));
+        });
+        return staffDTOList;
+    }
+
+    @Override
+    public List<StaffDTO> searchStaffDtoByNic(String nic) {
+        List<StaffDTO> staffDTOList=new ArrayList<>();
+        staffRepository.findByNic(nic).forEach(staffEntity -> {
+            staffDTOList.add(mapper.map(staffEntity,StaffDTO.class));
+        });
+        return staffDTOList;
+    }
+
 }
