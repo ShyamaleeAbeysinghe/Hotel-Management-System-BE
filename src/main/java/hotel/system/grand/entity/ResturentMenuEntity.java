@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.Set;
+
 @Data
 @ToString
 @AllArgsConstructor
@@ -20,4 +22,9 @@ public class ResturentMenuEntity {
     private Double price;
     private String description;
     private Integer status;
+    @Column(columnDefinition = "LONGBLOB")
+    private String img;
+
+    @OneToMany(mappedBy = "resturentMenuEntity")
+    private Set<ResturentManuHasOrderEntity> resturentManuHasOrderEntities;
 }

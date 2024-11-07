@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.Set;
+
 @Data
 @ToString
 @AllArgsConstructor
@@ -16,7 +18,13 @@ public class OrdersEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String qty;
     private Double totalPrice;
     private Integer status;
+
+    @ManyToOne
+    @JoinColumn(name = "roomBooking_id",nullable = false)
+    private RoomBookingEntity roomBookingEntity;
+
+    @OneToMany(mappedBy = "ordersEntity")
+    private Set<ResturentManuHasOrderEntity> resturentManuHasOrderEntities;
 }

@@ -6,10 +6,12 @@ import hotel.system.grand.repository.RoomRepository;
 import hotel.system.grand.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,21 +20,37 @@ public class RoomServiceImpl implements RoomService {
     final ModelMapper mapper;
 
     @Override
-    public void addRoom(RoomDTO roomDTO) {
-        roomRepository.save(mapper.map(roomDTO, RoomEntity.class));
+    public HttpStatus addRoom(RoomDTO roomDTO) {
+        try {
+            RoomEntity roomEntity = mapper.map(roomDTO, RoomEntity.class);
+            roomEntity.setStatus(1);
+            roomRepository.save(roomEntity);
+            return HttpStatus.CREATED;
+        }catch (Exception e){
+            e.printStackTrace();
+            return HttpStatus.INTERNAL_SERVER_ERROR;
+        }
     }
 
     @Override
     public Boolean deleteRoom(Integer id) {
-         roomRepository.deleteById(id);
-         return true;
+        Optional<RoomEntity> optionalRoomEntity = roomRepository.findById(id);
+        if (optionalRoomEntity.isPresent()){
+            RoomEntity roomEntity = optionalRoomEntity.get();
+            roomEntity.setStatus(0);
+            roomRepository.save(roomEntity);
+            return true;
+        }
+         return false;
     }
 
     @Override
     public List<RoomDTO> getAll() {
         List<RoomDTO> roomDTOList=new ArrayList<>();
         roomRepository.findAll().forEach(roomEntity -> {
-            roomDTOList.add(mapper.map(roomEntity,RoomDTO.class));
+            if(roomEntity.getStatus()==1){
+                roomDTOList.add(mapper.map(roomEntity,RoomDTO.class));
+            }
         });
         return roomDTOList;
     }

@@ -17,8 +17,19 @@ public class StaffDTO {
     private String contact;
     private String nic;
     private String address;
-    private String userName;
     private String password;
     private Integer status;
+    private Integer role;
     private String roleName;
+
+    public StaffDTO(Integer id, String firstName, String lastName, String contact, String nic, String address, Integer role,String roleName) {
+        this.id=id;
+        this.firstName=firstName;
+        this.lastName=lastName;
+        this.contact=contact;
+        this.nic=nic;
+        this.address=address;
+        this.role=role;
+        this.roleName=roleName;
+    }
 }

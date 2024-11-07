@@ -22,6 +22,10 @@ public class HallBookingEntity {
 
     @ManyToOne
     @JoinColumn(name = "customer_id",nullable = false)
-    private CustomerEntity customerEntity;
+    private CustomerEntity customerEntity01;
+
+    @ManyToOne
+    @JoinColumn(name = "hall-id" ,nullable = false)
+    private HallEntity hallEntity;
 
 }

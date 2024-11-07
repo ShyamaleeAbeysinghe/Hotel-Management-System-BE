@@ -20,4 +20,5 @@ public class HallDTO {
     private Integer tables;
     private Integer status;
 
+
 }

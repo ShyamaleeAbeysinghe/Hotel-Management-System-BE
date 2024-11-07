@@ -33,7 +33,10 @@ public class RoleServiceImpl implements RoleService {
     public List<RoleDTO> getAll() {
         List<RoleDTO> roleDTOList=new ArrayList<>();
         roleRepository.findAll().forEach(roleEntity -> {
-            roleDTOList.add(mapper.map(roleEntity,RoleDTO.class));
+            if(roleEntity.getStatus()==1){
+                roleDTOList.add(mapper.map(roleEntity,RoleDTO.class));
+            }
+
         });
         return roleDTOList;
     }

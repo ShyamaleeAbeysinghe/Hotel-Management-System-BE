@@ -4,27 +4,28 @@ import hotel.system.grand.dto.RoomDTO;
 import hotel.system.grand.dto.StaffDTO;
 import hotel.system.grand.service.StaffService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/room")
+@RequestMapping("/api/staff")
 @RequiredArgsConstructor
 @CrossOrigin
 public class StaffController {
     final StaffService staffService;
 
     @PostMapping("/add-staff")
-    public void addStaff(@RequestBody StaffDTO staffDTO){
-        staffService.addStaff(staffDTO);
+    public HttpStatus addStaff(@RequestBody StaffDTO staffDTO){
+        return staffService.addStaff(staffDTO);
     }
     @PutMapping("/update-staff")
-    public void updateStaff(@RequestBody StaffDTO staffDTO){
-        staffService.addStaff(staffDTO);
+    public HttpStatus updateStaff(@RequestBody StaffDTO staffDTO){
+        return staffService.addStaff(staffDTO);
     }
-    @DeleteMapping("/delete-staff")
-    public Boolean deleteById(@RequestParam Integer id){
+    @DeleteMapping("/delete-staff/{id}")
+    public Boolean deleteById(@PathVariable Integer id){
         return staffService.deleteById(id);
     }
     @GetMapping("/get-all")

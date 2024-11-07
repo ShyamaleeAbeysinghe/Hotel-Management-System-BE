@@ -28,7 +28,10 @@ public class CustomerEntity {
    private String password;
    private Integer status;
 
-    @OneToMany(mappedBy = "customerEntity")
+    @OneToMany(mappedBy = "customerEntity01")
     private Set<HallBookingEntity> hallBookingEntities;
+
+    @OneToMany(mappedBy = "customerEntity02")
+    private Set<RoomBookingEntity> roomBookingEntities;
 
 }

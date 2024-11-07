@@ -3,6 +3,7 @@ package hotel.system.grand.controller;
 import hotel.system.grand.dto.CustomerDTO;
 import hotel.system.grand.service.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,23 +16,22 @@ public class CustomerController {
     final CustomerService customerService;
 
     @PostMapping("/add")
-    public void addCustomer(@RequestBody CustomerDTO customerDTO){
-        System.out.println("aaaaa");
-        customerService.addCustomer(customerDTO);
+    public HttpStatus addCustomer(@RequestBody CustomerDTO customerDTO){
+       return customerService.addCustomer(customerDTO);
     }
     @PutMapping("/update")
-    public  void updateCustomer(@RequestBody CustomerDTO customerDTO){
-        customerService.addCustomer(customerDTO);
+    public  HttpStatus updateCustomer(@RequestBody CustomerDTO customerDTO){
+
+       return customerService.addCustomer(customerDTO);
     }
 
-    @DeleteMapping("/delete")
-    public Boolean deleteByCustomerId(@RequestParam Integer id){
+    @DeleteMapping("/delete/{id}")
+    public Boolean deleteByCustomerId(@PathVariable Integer id){
        return customerService.deleteCustomer(id);
     }
 
     @GetMapping("/get-all")
     public List<CustomerDTO> getAllCustomer(){
-        System.out.println("okkkkkkkkkkkkkkkkkk");
         return customerService.getAll();
     }
     @GetMapping("/search-by-customerName/{customerName}")

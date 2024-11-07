@@ -1,9 +1,9 @@
 package hotel.system.grand.controller;
 
-import hotel.system.grand.dto.RoleDTO;
 import hotel.system.grand.dto.RoomDTO;
 import hotel.system.grand.service.RoomService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,17 +16,17 @@ public class RoomController {
     final RoomService roomService;
 
     @PostMapping("/add-room")
-    public void addRoom(@RequestBody RoomDTO roomDTO){
-        roomService.addRoom(roomDTO);
+    public HttpStatus addRoom(@RequestBody RoomDTO roomDTO){
+        return roomService.addRoom(roomDTO);
     }
 
     @PutMapping("/update-room")
-    public void UpdateRoom(@RequestBody RoomDTO roomDTO){
-        roomService.addRoom(roomDTO);
+    public HttpStatus UpdateRoom(@RequestBody RoomDTO roomDTO){
+        return roomService.addRoom(roomDTO);
     }
 
-    @DeleteMapping("/delete-room")
-    public Boolean deleteById(Integer id){
+    @DeleteMapping("/delete-room/{id}")
+    public Boolean deleteRoom(@PathVariable Integer id){
         return roomService.deleteRoom(id);
     }
     @GetMapping("/get-all")

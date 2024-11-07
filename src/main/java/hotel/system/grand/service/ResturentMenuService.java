@@ -1,11 +1,12 @@
 package hotel.system.grand.service;
 
 import hotel.system.grand.dto.ResturentMenuDTO;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
 public interface ResturentMenuService {
-    void addResturentMenu(ResturentMenuDTO resturentMenuDTO);
+    HttpStatus addResturentMenu(ResturentMenuDTO resturentMenuDTO);
 
     Boolean deleteResturentMenu(Integer id);
 

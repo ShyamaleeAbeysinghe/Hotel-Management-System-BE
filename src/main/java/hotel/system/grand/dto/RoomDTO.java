@@ -19,5 +19,4 @@ public class RoomDTO {
     private String size;
     private Integer beds;
     private String description;
-    private Integer status;
 }

@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.Set;
+
 @Data
 @ToString
 @AllArgsConstructor
@@ -19,4 +21,15 @@ public class RoomBookingEntity {
     private Integer id;
     private LocalDate date;
     private Integer status;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id",nullable = false)
+    private CustomerEntity customerEntity02;
+
+    @ManyToOne
+    @JoinColumn(name = "room_id",nullable = false)
+    private RoomEntity roomEntity;
+
+    @OneToMany(mappedBy = "roomBookingEntity")
+    private Set<OrdersEntity> ordersEntities;
 }

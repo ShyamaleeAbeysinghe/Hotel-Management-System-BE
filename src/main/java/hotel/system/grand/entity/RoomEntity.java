@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.Set;
+
 @Data
 @ToString
 @AllArgsConstructor
@@ -16,6 +18,7 @@ public class RoomEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(columnDefinition="LONGBLOB")
     private String img;
     private String roomName;
     private Integer roomNo;
@@ -24,4 +27,7 @@ public class RoomEntity {
     private Integer beds;
     private String description;
     private Integer status;
+
+    @OneToMany(mappedBy = "roomEntity")
+    private Set<RoomBookingEntity> roomBookingEntities;
 }

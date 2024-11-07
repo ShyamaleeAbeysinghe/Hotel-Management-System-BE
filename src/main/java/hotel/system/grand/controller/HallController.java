@@ -4,6 +4,7 @@ import hotel.system.grand.dto.HallDTO;
 import hotel.system.grand.dto.RoomDTO;
 import hotel.system.grand.service.HallService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,19 +17,21 @@ public class HallController {
     final HallService hallService;
 
     @PostMapping("/add")
-    public void addHall(@RequestBody HallDTO hallDTO){
-        hallService.addHall(hallDTO);
+    public HttpStatus addHall(@RequestBody HallDTO hallDTO){
+        return hallService.addHall(hallDTO);
 
     }
     @PutMapping("/update-hall")
-    public void updateHall(@RequestBody HallDTO hallDTO){
-        hallService.addHall(hallDTO);
+    public HttpStatus updateHall(@RequestBody HallDTO hallDTO){
+
+        return hallService.addHall(hallDTO);
     }
 
-    @DeleteMapping("/delete-hall")
-    public Boolean deleteById(Integer id){
+    @DeleteMapping("/delete-hall/{id}")
+    public Boolean deleteById(@PathVariable Integer id){
         return hallService.deleteHall(id);
     }
+
     @GetMapping("/get-all")
     List<HallDTO> getAllHalls(){
         return hallService.getAll();

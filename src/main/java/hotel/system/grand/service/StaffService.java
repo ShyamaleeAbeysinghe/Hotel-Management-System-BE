@@ -1,11 +1,12 @@
 package hotel.system.grand.service;
 
 import hotel.system.grand.dto.StaffDTO;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
 public interface StaffService {
-    void addStaff(StaffDTO staffDTO);
+    HttpStatus addStaff(StaffDTO staffDTO);
 
     Boolean deleteById(Integer id);
 
