@@ -47,6 +47,7 @@ public class LoginServiceImpl implements LoginService {
             CustomerEntity customerEntity = optionalCustomerEntity.get();
             if (customerEntity.getPassword().equals(loginDTO.getPassword())){
                 response.put("status","success");
+                response.put("user",customerEntity.getId().toString());
                 return response;
             }else{
                 response.put("status","failed");
