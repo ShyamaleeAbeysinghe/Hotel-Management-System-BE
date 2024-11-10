@@ -11,4 +11,5 @@ public interface RoomBookingService {
     List<RoomDTO> findAvailableRooms(String start,String end);
     HttpStatus saveRoomBooking(RoomBookingDTO roomBookingDTO);
     List<RoomBookingResponseDTO> getAllRoomBookings();
+    HttpStatus cancelBooking(Integer bookingId);
 }

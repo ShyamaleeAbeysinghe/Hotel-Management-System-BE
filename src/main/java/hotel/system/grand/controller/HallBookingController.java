@@ -1,8 +1,6 @@
 package hotel.system.grand.controller;
 
-import hotel.system.grand.dto.HallBookingDTO;
-import hotel.system.grand.dto.HallDTO;
-import hotel.system.grand.dto.RoomBookingDTO;
+import hotel.system.grand.dto.*;
 import hotel.system.grand.service.HallBookingService;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
@@ -26,5 +24,15 @@ public class HallBookingController {
     @PostMapping("/saveBooking")
     public HttpStatus saveRoomBooking(@RequestBody HallBookingDTO hallBookingDTO) {
         return hallBookingService.saveHallBooking(hallBookingDTO);
+    }
+
+    @GetMapping("/getAll")
+    public List<HallBookingResponseDTO> getAllHallBookings(){
+        return hallBookingService.getAllHallBookings();
+    }
+
+    @PostMapping("/cancelBooking/{id}")
+    public HttpStatus cancelHallBooking(@PathVariable Integer id) {
+        return hallBookingService.cancelBooking(id);
     }
 }

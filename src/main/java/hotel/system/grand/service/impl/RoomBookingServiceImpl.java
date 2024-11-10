@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,8 +35,10 @@ public class RoomBookingServiceImpl implements RoomBookingService {
     final ModelMapper mapper;
     @Override
     public List<RoomDTO> findAvailableRooms(String start, String end) {
-        List<RoomBookingEntity> allByCheckinBetween = roomBookingRepository.findAllByCheckInBetween(LocalDate.parse(start), LocalDate.parse(end));
-        List<RoomBookingEntity> allByCheckoutBetween = roomBookingRepository.findAllByCheckoutBetween(LocalDate.parse(start), LocalDate.parse(end));
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = LocalDate.parse(end);
+        List<RoomBookingEntity> allByCheckinBetween = roomBookingRepository.findAllByCheckInBetween(startDate, endDate);
+        List<RoomBookingEntity> allByCheckoutBetween = roomBookingRepository.findAllByCheckoutBetween(startDate, endDate);
         List<RoomEntity> allRooms=roomRepository.findAll();
 
         allRooms.forEach(roomEntity -> {
@@ -51,11 +54,14 @@ public class RoomBookingServiceImpl implements RoomBookingService {
             });
         });
 
+        long stayingDays = ChronoUnit.DAYS.between(startDate, endDate);
 
         List<RoomDTO> roomDTOList=new ArrayList<>();
         allRooms.forEach(roomEntity -> {
             if(roomEntity.getStatus()==1){
-                roomDTOList.add(mapper.map(roomEntity,RoomDTO.class));
+                RoomDTO roomDTO = mapper.map(roomEntity, RoomDTO.class);
+                roomDTO.setPrice(roomEntity.getPrice()*stayingDays);
+                roomDTOList.add(roomDTO);
             }
         });
         return roomDTOList;
@@ -67,8 +73,12 @@ public class RoomBookingServiceImpl implements RoomBookingService {
             Optional<CustomerEntity> optionalCustomerEntity = customerRepository.findById(roomBookingDTO.getCustomerId());
             Optional<RoomEntity> optionalRoomEntity = roomRepository.findById(roomBookingDTO.getRoomId());
             if (optionalRoomEntity.isPresent() && optionalCustomerEntity.isPresent()){
+                RoomEntity roomEntity = optionalRoomEntity.get();
+                long stayingDays = ChronoUnit.DAYS.between(roomBookingDTO.getCheckIn(), roomBookingDTO.getCheckOut());
+                double totalPrice = roomEntity.getPrice() * stayingDays;
                 RoomBookingEntity roomBookingEntity = mapper.map(roomBookingDTO, RoomBookingEntity.class);
-                roomBookingEntity.setRoomEntity(optionalRoomEntity.get());
+                roomBookingEntity.setRoomEntity(roomEntity);
+                roomBookingEntity.setTotalRoomPrice(totalPrice);
                 roomBookingEntity.setCustomerEntity02(optionalCustomerEntity.get());
                 roomBookingEntity.setStatus(1);
                 roomBookingEntity.setDate(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
@@ -89,10 +99,30 @@ public class RoomBookingServiceImpl implements RoomBookingService {
         roomBookingRepository.findAll().forEach(roomBookingEntity -> {
             if(roomBookingEntity.getStatus()==1){
                 RoomBookingResponseDTO roomBookingResponseDTO = mapper.map(roomBookingEntity, RoomBookingResponseDTO.class);
-                roomBookingResponseDTO.setPrice(roomBookingEntity.getRoomEntity().getPrice());
+                roomBookingResponseDTO.setPrice(roomBookingEntity.getTotalRoomPrice());
+                roomBookingResponseDTO.setImg(roomBookingEntity.getRoomEntity().getImg());
                 roomBookingDTOList.add(roomBookingResponseDTO);
             }
         });
         return roomBookingDTOList;
+    }
+
+    @Override
+    public HttpStatus cancelBooking(Integer bookingId) {
+        Optional<RoomBookingEntity> optionalRoomBookingEntity = roomBookingRepository.findById(bookingId);
+        if (optionalRoomBookingEntity.isPresent()){
+            RoomBookingEntity roomBookingEntity = optionalRoomBookingEntity.get();
+            LocalDate currentDate = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            long difference = ChronoUnit.DAYS.between(currentDate, roomBookingEntity.getCheckIn());
+            if (difference<7){
+                return HttpStatus.NOT_ACCEPTABLE;
+            }else{
+                roomBookingEntity.setStatus(0);
+                roomBookingRepository.save(roomBookingEntity);
+                return HttpStatus.ACCEPTED;
+            }
+        }else{
+            return HttpStatus.NOT_FOUND;
+        }
     }
 }

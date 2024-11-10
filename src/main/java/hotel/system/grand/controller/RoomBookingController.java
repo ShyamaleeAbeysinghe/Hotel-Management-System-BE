@@ -32,4 +32,10 @@ public class RoomBookingController {
     public List<RoomBookingResponseDTO> getAllRoomBookings(){
         return roomBookingService.getAllRoomBookings();
     }
+
+
+    @PostMapping("/cancelBooking/{id}")
+    public HttpStatus cancelRoomBooking(@PathVariable Integer id) {
+        return roomBookingService.cancelBooking(id);
+    }
 }

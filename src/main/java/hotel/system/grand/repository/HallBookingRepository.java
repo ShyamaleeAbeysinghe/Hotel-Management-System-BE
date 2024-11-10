@@ -8,6 +8,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface HallBookingRepository extends JpaRepository<HallBookingEntity,Integer> {
-    List<HallBookingEntity> findAllByDate(LocalDate date);
+    List<HallBookingEntity> findAllByBookedDate(LocalDate date);
 
 }

@@ -19,6 +19,7 @@ public class HallBookingEntity {
     private Integer id;
     private LocalDate date;
     private Integer status;
+    private LocalDate bookedDate;
 
     @ManyToOne
     @JoinColumn(name = "customer_id",nullable = false)

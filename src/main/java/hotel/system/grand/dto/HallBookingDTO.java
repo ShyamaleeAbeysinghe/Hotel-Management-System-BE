@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class HallBookingDTO {
     private Integer id;
-    private LocalDate date;
+    private LocalDate bookedDate;
     private Integer status;
     private Integer customerId;
     private Integer hallId;

@@ -23,6 +23,7 @@ public class RoomBookingEntity {
     private Integer status;
     private LocalDate checkIn;
     private LocalDate checkout;
+    private Double totalRoomPrice;
 
     @ManyToOne
     @JoinColumn(name = "customer_id",nullable = false)

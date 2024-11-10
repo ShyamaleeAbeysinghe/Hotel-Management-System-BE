@@ -6,18 +6,16 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
-
 @Data
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class RoomBookingResponseDTO {
+public class HallBookingResponseDTO {
+
     private Integer id;
     private LocalDate date;
-    private String roomName;
-    private LocalDate checkIn;
-    private LocalDate checkOut;
-    private Integer roomNo;
+    private String hallName;
+    private LocalDate bookedDate;
     private Double price;
     private String img;
 }
