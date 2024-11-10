@@ -22,4 +22,5 @@ public class HallBookingController {
     public List<HallDTO> getAvailable(@PathParam("date") String date){
         return hallBookingService.findAvailableHall(date);
     }
+
 }
