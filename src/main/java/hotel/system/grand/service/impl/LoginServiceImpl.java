@@ -1,7 +1,9 @@
 package hotel.system.grand.service.impl;
 
 import hotel.system.grand.dto.LoginDTO;
+import hotel.system.grand.entity.CustomerEntity;
 import hotel.system.grand.entity.StaffEntity;
+import hotel.system.grand.repository.CustomerRepository;
 import hotel.system.grand.repository.StaffRepository;
 import hotel.system.grand.service.LoginService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class LoginServiceImpl implements LoginService {
     private final StaffRepository staffRepository;
+    private final CustomerRepository customerRepository;
     @Override
     public Map<String,String> staffLogin(LoginDTO loginDTO) {
         Map<String,String> response = new HashMap<>();
@@ -34,5 +37,23 @@ public class LoginServiceImpl implements LoginService {
             response.put("status","failed");
             return response;
         }
+    }
+
+    @Override
+    public Map<String, String> customerLogin(LoginDTO loginDTO) {
+        Map<String,String> response = new HashMap<>();
+        Optional<CustomerEntity> optionalCustomerEntity = customerRepository.findByEmail(loginDTO.getUsername());
+        if (optionalCustomerEntity.isPresent()){
+            CustomerEntity customerEntity = optionalCustomerEntity.get();
+            if (customerEntity.getPassword().equals(loginDTO.getPassword())){
+                response.put("status","success");
+                return response;
+            }else{
+                response.put("status","failed");
+                return response;
+            }
+        }
+        response.put("status","failed");
+        return response;
     }
 }

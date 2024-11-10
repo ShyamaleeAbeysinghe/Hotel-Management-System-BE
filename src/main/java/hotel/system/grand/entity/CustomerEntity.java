@@ -1,6 +1,7 @@
 package hotel.system.grand.entity;
 
 
+import hotel.system.grand.config.EncryptionConfig;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +26,7 @@ public class CustomerEntity {
    private String nic;
    private String email;
    private String userName;
+   @Convert(converter = EncryptionConfig.class)
    private String password;
    private Integer status;
 

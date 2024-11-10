@@ -21,6 +21,8 @@ public class RoomBookingEntity {
     private Integer id;
     private LocalDate date;
     private Integer status;
+    private LocalDate checkIn;
+    private LocalDate checkout;
 
     @ManyToOne
     @JoinColumn(name = "customer_id",nullable = false)

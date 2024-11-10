@@ -76,9 +76,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public List<CustomerDTO> searchByEmail(String email) {
        List<CustomerDTO> customerDTOList=new ArrayList<>();
-       customerRepository.findByEmail(email).forEach(customerEntity -> {
-           customerDTOList.add(mapper.map(customerEntity,CustomerDTO.class));
-       });
+//       customerRepository.findByEmail(email).forEach(customerEntity -> {
+//           customerDTOList.add(mapper.map(customerEntity,CustomerDTO.class));
+//       });
 
        return customerDTOList;
     }
