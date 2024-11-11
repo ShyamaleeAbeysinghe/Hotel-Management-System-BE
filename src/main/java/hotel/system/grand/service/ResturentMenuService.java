@@ -1,5 +1,6 @@
 package hotel.system.grand.service;
 
+import hotel.system.grand.dto.OrdersDTO;
 import hotel.system.grand.dto.ResturentMenuDTO;
 import org.springframework.http.HttpStatus;
 
@@ -13,4 +14,5 @@ public interface ResturentMenuService {
     List<ResturentMenuDTO> getAll();
 
     List<ResturentMenuDTO> searchRoomDtoByFoodName(String foodName);
+
 }

@@ -46,6 +46,10 @@ public class CustomerController {
     public List<CustomerDTO> searchByEmail(@PathVariable String email){
         return customerService.searchByEmail(email);
     }
+    @GetMapping("/search-by-id/{id}")
+    public CustomerDTO findCutomerById(@PathVariable Integer id){
+        return customerService.findCutomerById(id);
+    }
 
 
 }

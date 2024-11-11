@@ -19,4 +19,6 @@ public interface CustomerService {
     List<CustomerDTO> searchByontact(String contact);
 
     List<CustomerDTO> searchByEmail(String email);
+
+    CustomerDTO findCutomerById(Integer customerId);
 }

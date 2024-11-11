@@ -1,6 +1,5 @@
 package hotel.system.grand.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,10 +9,9 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrdersDTO {
+public class FoodDTO {
     private Integer id;
-    private FoodDTO[] foods;
-    private Double totalPrice;
-    private Integer status;
-    private Integer customerId;
+    private String name;
+    private Double price;
+    private Integer qty;
 }

@@ -1,11 +1,12 @@
 package hotel.system.grand.service;
 
 import hotel.system.grand.dto.OrdersDTO;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
 public interface OrderService {
-    void addOrder(OrdersDTO ordersDTO);
+    HttpStatus addOrder(OrdersDTO ordersDTO);
 
     Boolean deleteOrder(Integer id);
 

@@ -12,7 +12,7 @@ import lombok.*;
 @Table(name = "resturentHasOrder")
 public class ResturentManuHasOrderEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private Integer qty;
 

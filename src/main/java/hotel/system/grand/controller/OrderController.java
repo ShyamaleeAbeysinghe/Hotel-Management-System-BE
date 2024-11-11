@@ -5,6 +5,7 @@ import hotel.system.grand.dto.RoomDTO;
 import hotel.system.grand.service.OrderService;
 import hotel.system.grand.service.RoomService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,8 +18,8 @@ public class OrderController {
     final OrderService orderService;
 
     @PostMapping("/add-order")
-    public void addOrder(@RequestBody OrdersDTO ordersDTO){
-        orderService.addOrder(ordersDTO);
+    public HttpStatus addOrder(@RequestBody OrdersDTO ordersDTO){
+        return orderService.addOrder(ordersDTO);
     }
 
     @PutMapping("/update-order")

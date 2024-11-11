@@ -82,4 +82,16 @@ public class CustomerServiceImpl implements CustomerService {
 
        return customerDTOList;
     }
+
+    @Override
+    public CustomerDTO findCutomerById(Integer customerId) {
+        Optional<CustomerEntity> optionalCustomerEntity = customerRepository.findById(customerId);
+        if (optionalCustomerEntity.isPresent()){
+            CustomerEntity customerEntity = optionalCustomerEntity.get();
+            customerEntity.setUserName("");
+            customerEntity.setPassword("");
+            return mapper.map(customerEntity,CustomerDTO.class);
+        }
+        return null;
+    }
 }

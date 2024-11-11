@@ -75,16 +75,21 @@ public class HallBookingServiceImpl implements HallBookingService {
     }
 
     @Override
-    public List<HallBookingResponseDTO> getAllHallBookings() {
+    public List<HallBookingResponseDTO> getAllHallBookings(Integer userId) {
         List<HallBookingResponseDTO> hallBookingResponseDTOList=new ArrayList<>();
-        hallBookingRepository.findAll().forEach(hallBookingEntity -> {
-            if(hallBookingEntity.getStatus()==1){
-                HallBookingResponseDTO hallBookingResponseDTO = mapper.map(hallBookingEntity, HallBookingResponseDTO.class);
-                hallBookingResponseDTO.setPrice(hallBookingEntity.getHallEntity().getPrice());
-                hallBookingResponseDTO.setImg(hallBookingEntity.getHallEntity().getImg());
-                hallBookingResponseDTOList.add(hallBookingResponseDTO);
-            }
-        });
+        Optional<CustomerEntity> optionalCustomerEntity = customerRepository.findById(userId);
+        if (optionalCustomerEntity.isPresent()){
+            CustomerEntity customerEntity = optionalCustomerEntity.get();
+            hallBookingRepository.findAllByCustomerEntity01(customerEntity).forEach(hallBookingEntity -> {
+                if(hallBookingEntity.getStatus()==1){
+                    HallBookingResponseDTO hallBookingResponseDTO = mapper.map(hallBookingEntity, HallBookingResponseDTO.class);
+                    hallBookingResponseDTO.setPrice(hallBookingEntity.getHallEntity().getPrice());
+                    hallBookingResponseDTO.setImg(hallBookingEntity.getHallEntity().getImg());
+                    hallBookingResponseDTOList.add(hallBookingResponseDTO);
+                }
+            });
+        }
+
         return hallBookingResponseDTOList;
     }
 
