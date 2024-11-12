@@ -14,6 +14,6 @@ public class OrdersDTO {
     private Integer id;
     private FoodDTO[] foods;
     private Double totalPrice;
-    private Integer status;
+    private String status;
     private Integer customerId;
 }

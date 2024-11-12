@@ -30,7 +30,7 @@ public class RoomBookingController {
         return roomBookingService.saveRoomBooking(roomBookingDTO);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/getAllActive")
     public List<RoomBookingResponseDTO> getUserRoomBookings(@RequestParam("userId") Integer userId){
         return roomBookingService.getUserRoomBookings(userId);
     }
@@ -49,8 +49,14 @@ public class RoomBookingController {
     public Map<String,String> customerCheckIn(@PathVariable Integer id) {
         return roomBookingService.customerCheckIn(id);
     }
-
-
+    @PostMapping("/checkOut/{id}")
+    public HttpStatus customerCheckOut(@PathVariable Integer id) {
+        return roomBookingService.customerCheckOut(id);
+    }
+    @GetMapping("/getRoomBookingTotal/{bookingId}")
+    public Double getRoomBookingTotal(@PathVariable Integer bookingId){
+        return roomBookingService.getRoomBookingTotal(bookingId);
+    }
     @GetMapping("/isCustomerCheckedIn/{customerId}")
     public Boolean isCustomerCheckedIn(@PathVariable Integer customerId){
         return roomBookingService.isCustomerCheckedIn(customerId);

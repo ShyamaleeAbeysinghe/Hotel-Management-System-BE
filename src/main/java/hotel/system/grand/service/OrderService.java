@@ -11,6 +11,13 @@ public interface OrderService {
     Boolean deleteOrder(Integer id);
 
     List<OrdersDTO> getAll();
+    List<OrdersDTO> getAllBYCustomer(Integer customerId);
+    List<OrdersDTO> getAllForChef();
+    List<OrdersDTO> getCompletedForChef();
+    List<OrdersDTO> getAllForRoomBoy();
+    List<OrdersDTO> getCompletedForRoomBoy();
+    List<OrdersDTO> getPendingForAdmin();
+    HttpStatus updateOrder(OrdersDTO ordersDTO);
 
     List<OrdersDTO> searchOrderById(Integer id);
 }

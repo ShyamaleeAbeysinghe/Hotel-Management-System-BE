@@ -2,9 +2,11 @@ package hotel.system.grand.service.impl;
 
 import hotel.system.grand.dto.*;
 import hotel.system.grand.entity.CustomerEntity;
+import hotel.system.grand.entity.OrdersEntity;
 import hotel.system.grand.entity.RoomBookingEntity;
 import hotel.system.grand.entity.RoomEntity;
 import hotel.system.grand.repository.CustomerRepository;
+import hotel.system.grand.repository.OrderRepository;
 import hotel.system.grand.repository.RoomBookingRepository;
 import hotel.system.grand.repository.RoomRepository;
 import hotel.system.grand.service.RoomBookingService;
@@ -18,6 +20,7 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +28,7 @@ public class RoomBookingServiceImpl implements RoomBookingService {
     private final RoomBookingRepository roomBookingRepository;
     private final RoomRepository roomRepository;
     private final CustomerRepository customerRepository;
+    private final OrderRepository orderRepository;
     final ModelMapper mapper;
 
     @Override
@@ -170,6 +174,41 @@ public class RoomBookingServiceImpl implements RoomBookingService {
         response.put("reason", "not found");
 
         return response;
+    }
+
+    @Override
+    public HttpStatus customerCheckOut(Integer bookingId) {
+        try {
+            Optional<RoomBookingEntity> optionalRoomBookingEntity = roomBookingRepository.findById(bookingId);
+            if (optionalRoomBookingEntity.isPresent()) {
+                LocalDate currentDate = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+                RoomBookingEntity roomBookingEntity = optionalRoomBookingEntity.get();
+                roomBookingEntity.setStatus(3);
+                roomBookingRepository.save(roomBookingEntity);
+                return HttpStatus.ACCEPTED;
+
+            }
+            return HttpStatus.NOT_FOUND;
+        }catch (Exception e){
+            e.printStackTrace();
+            return HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+    }
+
+    @Override
+    public Double getRoomBookingTotal(Integer bookingId) {
+        AtomicReference<Double> totalPrice= new AtomicReference<>(0.0);
+        Optional<RoomBookingEntity> optionalRoomBookingEntity = roomBookingRepository.findById(bookingId);
+        if (optionalRoomBookingEntity.isPresent()) {
+            RoomBookingEntity roomBookingEntity = optionalRoomBookingEntity.get();
+            List<OrdersEntity> ordersByRoomBookingEntity = orderRepository.getAllOrdersByRoomBookingEntity(roomBookingEntity);
+            ordersByRoomBookingEntity.forEach(ordersEntity -> {
+                totalPrice.updateAndGet(v -> v + ordersEntity.getTotalPrice());
+            });
+            totalPrice.updateAndGet(v -> v + roomBookingEntity.getTotalRoomPrice());
+        }
+        return totalPrice.get();
     }
 
     @Override

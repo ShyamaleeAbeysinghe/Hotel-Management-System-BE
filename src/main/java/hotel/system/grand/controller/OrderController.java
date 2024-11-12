@@ -23,17 +23,41 @@ public class OrderController {
     }
 
     @PutMapping("/update-order")
-    public void UpdateOrder(@RequestBody OrdersDTO ordersDTO){
-        orderService.addOrder(ordersDTO);
+    public HttpStatus UpdateOrder(@RequestBody OrdersDTO ordersDTO){
+        return orderService.updateOrder(ordersDTO);
     }
 
-    @DeleteMapping("/delete-order")
-    public Boolean deleteOrder(Integer id){
+    @DeleteMapping("/delete-order/{id}")
+    public Boolean deleteOrder(@PathVariable Integer id){
         return orderService.deleteOrder(id);
     }
     @GetMapping("/get-all")
     List<OrdersDTO> getAllOrders(){
         return orderService.getAll();
+    }
+    @GetMapping("/getAllByCustomer/{id}")
+    List<OrdersDTO> getAllOrdersByCustomer(@PathVariable Integer id){
+        return orderService.getAllBYCustomer(id);
+    }
+    @GetMapping("/getAllForChef")
+    List<OrdersDTO> getAllForChef(){
+        return orderService.getAllForChef();
+    }
+    @GetMapping("/getCompletedForChef")
+    List<OrdersDTO> getCompletedForChef(){
+        return orderService.getCompletedForChef();
+    }
+    @GetMapping("/getAllForRoomBoy")
+    List<OrdersDTO> getAllForRoomBoy(){
+        return orderService.getAllForRoomBoy();
+    }
+    @GetMapping("/getCompletedForRoomBoy")
+    List<OrdersDTO> getCompletedForRoomBoy(){
+        return orderService.getCompletedForRoomBoy();
+    }
+    @GetMapping("/getPendingForAdmin")
+    List<OrdersDTO> getPendingForAdmin(){
+        return orderService.getPendingForAdmin();
     }
 
     @GetMapping("/search-by-orderId/{id}")
