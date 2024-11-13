@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 
@@ -12,12 +11,11 @@ import java.time.LocalDate;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class ManageBookingDTO {
+public class ManageHallBookingDTO {
     private Integer id;
-    private LocalDate checkIn;
-    private LocalDate checkOut;
+    private LocalDate bookDate;
     private Double total;
-    private RoomDTO room;
+    private HallDTO hall;
     private CustomerDTO customer;
     private String status;
 }

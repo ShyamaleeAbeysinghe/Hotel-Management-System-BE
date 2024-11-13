@@ -1,6 +1,6 @@
 package hotel.system.grand.controller;
 
-import hotel.system.grand.dto.ManageBookingDTO;
+import hotel.system.grand.dto.ManageRoomBookingDTO;
 import hotel.system.grand.dto.RoomBookingDTO;
 import hotel.system.grand.dto.RoomBookingResponseDTO;
 import hotel.system.grand.dto.RoomDTO;
@@ -36,7 +36,7 @@ public class RoomBookingController {
     }
 
     @GetMapping("/getAllBookings")
-    public List<ManageBookingDTO> getAllRoomBookings(){
+    public List<ManageRoomBookingDTO> getAllRoomBookings(){
         return roomBookingService.getAllRoomBookings();
     }
 

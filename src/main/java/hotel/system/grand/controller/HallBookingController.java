@@ -26,9 +26,13 @@ public class HallBookingController {
         return hallBookingService.saveHallBooking(hallBookingDTO);
     }
 
-    @GetMapping("/getAll")
-    public List<HallBookingResponseDTO> getAllHallBookings(@RequestParam("userId") Integer userId){
-        return hallBookingService.getAllHallBookings(userId);
+    @GetMapping("/getAllByCustomer")
+    public List<HallBookingResponseDTO> getAllHallBookingsByCustomer(@RequestParam("userId") Integer userId){
+        return hallBookingService.getAllHallBookingsByCustomer(userId);
+    }
+    @GetMapping("/getAllBookings")
+    public List<ManageHallBookingDTO> getAllHallBookings(){
+        return hallBookingService.getAllHallBookings();
     }
 
     @PostMapping("/cancelBooking/{id}")

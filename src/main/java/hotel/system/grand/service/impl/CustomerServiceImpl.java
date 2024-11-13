@@ -1,6 +1,7 @@
 package hotel.system.grand.service.impl;
 
 import hotel.system.grand.dto.CustomerDTO;
+import hotel.system.grand.dto.PasswordDTO;
 import hotel.system.grand.entity.CustomerEntity;
 import hotel.system.grand.entity.HallEntity;
 import hotel.system.grand.repository.CustomerRepository;
@@ -10,9 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -32,6 +31,44 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
     }
+
+    @Override
+    public HttpStatus updateCustomer(CustomerDTO customerDTO) {
+        Optional<CustomerEntity> optionalCustomerEntity = customerRepository.findById(customerDTO.getId());
+        if (optionalCustomerEntity.isPresent()){
+            CustomerEntity customerEntity = optionalCustomerEntity.get();
+            customerEntity.setCustomerName(customerDTO.getCustomerName());
+            customerEntity.setAge(customerDTO.getAge());
+            customerEntity.setAddress(customerDTO.getAddress());
+            customerEntity.setContact(customerDTO.getContact());
+            customerEntity.setEmail(customerDTO.getEmail());
+            customerRepository.save(customerEntity);
+            return HttpStatus.ACCEPTED;
+        }
+        return HttpStatus.INTERNAL_SERVER_ERROR;
+    }
+
+    @Override
+    public Map<String, String> updateCustomerPassword(PasswordDTO passwordDTO) {
+        Map<String, String> response = new HashMap<>();
+        Optional<CustomerEntity> optionalCustomerEntity = customerRepository.findById(passwordDTO.getId());
+        if (optionalCustomerEntity.isPresent()){
+            CustomerEntity customerEntity = optionalCustomerEntity.get();
+            if (customerEntity.getPassword().equals(passwordDTO.getOldPassword())){
+                customerEntity.setPassword(passwordDTO.getNewPassword());
+                customerRepository.save(customerEntity);
+                response.put("status","success");
+            }else{
+                response.put("status","failed");
+                response.put("reason","Current password is invalid");
+            }
+            return response;
+        }
+        response.put("status","failed");
+        response.put("reason","Incorrect user details. Please log in again");
+        return response;
+    }
+
     @Override
     public Boolean deleteCustomer(Integer id) {
         Optional<CustomerEntity> optionalCustomerEntity = customerRepository.findById(id);
@@ -49,7 +86,10 @@ public class CustomerServiceImpl implements CustomerService {
         List<CustomerDTO> customerDTOList=new ArrayList<>();
         customerRepository.findAll().forEach(customerEntity -> {
             if (customerEntity.getStatus()==1){
-                customerDTOList.add(mapper.map(customerEntity,CustomerDTO.class));
+                CustomerDTO customerDTO = mapper.map(customerEntity, CustomerDTO.class);
+                customerDTO.setUsername("");
+                customerDTO.setPassword("");
+                customerDTOList.add(customerDTO);
             }
         });
         return customerDTOList;

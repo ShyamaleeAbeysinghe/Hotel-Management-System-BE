@@ -1,9 +1,6 @@
 package hotel.system.grand.service.impl;
 
-import hotel.system.grand.dto.HallBookingDTO;
-import hotel.system.grand.dto.HallBookingResponseDTO;
-import hotel.system.grand.dto.HallDTO;
-import hotel.system.grand.dto.RoomBookingResponseDTO;
+import hotel.system.grand.dto.*;
 import hotel.system.grand.entity.*;
 import hotel.system.grand.repository.CustomerRepository;
 import hotel.system.grand.repository.HallBookingRepository;
@@ -75,7 +72,7 @@ public class HallBookingServiceImpl implements HallBookingService {
     }
 
     @Override
-    public List<HallBookingResponseDTO> getAllHallBookings(Integer userId) {
+    public List<HallBookingResponseDTO> getAllHallBookingsByCustomer(Integer userId) {
         List<HallBookingResponseDTO> hallBookingResponseDTOList=new ArrayList<>();
         Optional<CustomerEntity> optionalCustomerEntity = customerRepository.findById(userId);
         if (optionalCustomerEntity.isPresent()){
@@ -91,6 +88,25 @@ public class HallBookingServiceImpl implements HallBookingService {
         }
 
         return hallBookingResponseDTOList;
+    }
+
+    @Override
+    public List<ManageHallBookingDTO> getAllHallBookings() {
+        List<ManageHallBookingDTO> bookingDTOList = new ArrayList<>();
+        hallBookingRepository.findAll().forEach(hallBookingEntity -> {
+            hallBookingEntity.getCustomerEntity01().setPassword("");
+            hallBookingEntity.getCustomerEntity01().setUserName("");
+            ManageHallBookingDTO manageBookingDTO = mapper.map(hallBookingEntity, ManageHallBookingDTO.class);
+            if (hallBookingEntity.getStatus() == 0) {
+                manageBookingDTO.setStatus("Cancelled");
+            } else if (hallBookingEntity.getStatus() == 1) {
+                manageBookingDTO.setStatus("Pending");
+            }
+            manageBookingDTO.setTotal(hallBookingEntity.getHallEntity().getPrice());
+            manageBookingDTO.setBookDate(hallBookingEntity.getBookedDate());
+            bookingDTOList.add(manageBookingDTO);
+        });
+        return bookingDTOList;
     }
 
     @Override

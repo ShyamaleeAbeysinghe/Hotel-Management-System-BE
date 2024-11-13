@@ -8,6 +8,8 @@ import java.util.List;
 public interface HallBookingService {
     List<HallDTO> findAvailableHall(String date);
     HttpStatus saveHallBooking(HallBookingDTO hallBookingDTO);
-    List<HallBookingResponseDTO> getAllHallBookings(Integer userId);
+    List<HallBookingResponseDTO> getAllHallBookingsByCustomer(Integer userId);
+
+    List<ManageHallBookingDTO> getAllHallBookings();
     HttpStatus cancelBooking(Integer bookingId);
 }

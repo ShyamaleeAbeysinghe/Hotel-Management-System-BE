@@ -9,6 +9,7 @@ import hotel.system.grand.repository.CustomerRepository;
 import hotel.system.grand.repository.OrderRepository;
 import hotel.system.grand.repository.RoomBookingRepository;
 import hotel.system.grand.repository.RoomRepository;
+import hotel.system.grand.service.EmailService;
 import hotel.system.grand.service.RoomBookingService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -29,6 +30,7 @@ public class RoomBookingServiceImpl implements RoomBookingService {
     private final RoomRepository roomRepository;
     private final CustomerRepository customerRepository;
     private final OrderRepository orderRepository;
+    private final EmailService emailService;
     final ModelMapper mapper;
 
     @Override
@@ -81,6 +83,17 @@ public class RoomBookingServiceImpl implements RoomBookingService {
                 roomBookingEntity.setStatus(1);
                 roomBookingEntity.setDate(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
                 roomBookingRepository.save(roomBookingEntity);
+                EmailDetails emailDetails=new EmailDetails();
+                emailDetails.setRecipient(roomBookingEntity.getCustomerEntity02().getEmail());
+                emailDetails.setSubject("Room Booking Confirmation");
+                emailDetails.setMsgBody("");
+                String sampleEmail="<div style=\"background: #c6eeea; padding: 10px;\">\n" +
+                        "  <p style=\"color:#A6A6A6\">Hello "+roomBookingEntity.getCustomerEntity02().getCustomerName()+",</p>\n" +
+                        "  <p style=\"color:#A6A6A6\">We have received new booking request. You can see your booking  <a style=\"color:#009688\"href=\"http://localhost:4200/booking\">here</a>. You can cancel this booking prior to 7 days of booking date. Feel free to reach us for any clarifications.</p>\n" +
+                        "  <p style=\"color:#A6A6A6\">Regards,<br>Hotel Grand Management</p>\n" +
+                        "</div>";
+                emailDetails.setMsgBody(sampleEmail);
+                emailService.sendSimpleMail(emailDetails);
                 return HttpStatus.CREATED;
             } else {
                 return HttpStatus.NOT_FOUND;
@@ -130,12 +143,12 @@ public class RoomBookingServiceImpl implements RoomBookingService {
     }
 
     @Override
-    public List<ManageBookingDTO> getAllRoomBookings() {
-        List<ManageBookingDTO> bookingDTOList = new ArrayList<>();
+    public List<ManageRoomBookingDTO> getAllRoomBookings() {
+        List<ManageRoomBookingDTO> bookingDTOList = new ArrayList<>();
         roomBookingRepository.findAll().forEach(roomBookingEntity -> {
             roomBookingEntity.getCustomerEntity02().setPassword("");
             roomBookingEntity.getCustomerEntity02().setUserName("");
-            ManageBookingDTO manageBookingDTO = mapper.map(roomBookingEntity, ManageBookingDTO.class);
+            ManageRoomBookingDTO manageBookingDTO = mapper.map(roomBookingEntity, ManageRoomBookingDTO.class);
             if (roomBookingEntity.getStatus() == 0) {
                 manageBookingDTO.setStatus("Cancelled");
             } else if (roomBookingEntity.getStatus() == 1) {

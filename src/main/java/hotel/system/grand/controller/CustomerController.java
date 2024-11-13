@@ -1,12 +1,14 @@
 package hotel.system.grand.controller;
 
 import hotel.system.grand.dto.CustomerDTO;
+import hotel.system.grand.dto.PasswordDTO;
 import hotel.system.grand.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/customer")
@@ -22,7 +24,12 @@ public class CustomerController {
     @PutMapping("/update")
     public  HttpStatus updateCustomer(@RequestBody CustomerDTO customerDTO){
 
-       return customerService.addCustomer(customerDTO);
+       return customerService.updateCustomer(customerDTO);
+    }
+    @PutMapping("/updatepw")
+    public Map<String,String> updateCustomerPassword(@RequestBody PasswordDTO passwordDTO){
+
+        return customerService.updateCustomerPassword(passwordDTO);
     }
 
     @DeleteMapping("/delete/{id}")
