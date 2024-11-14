@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface HallBookingRepository extends JpaRepository<HallBookingEntity,Integer> {
     List<HallBookingEntity> findAllByBookedDate(LocalDate date);
+    List<HallBookingEntity> findAllByBookedDateBetween(LocalDate start,LocalDate end);
     List<HallBookingEntity> findAllByCustomerEntity01(CustomerEntity customerEntity);
 
 }
