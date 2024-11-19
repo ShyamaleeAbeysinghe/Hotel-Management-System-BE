@@ -226,7 +226,7 @@ public class OrderServiceImpl implements OrderService {
         List<OrdersDTO> ordersDTOList = new ArrayList<>();
         List<OrdersEntity> ordersByRoomBookingEntity = orderRepository.findAll();
         ordersByRoomBookingEntity.forEach(ordersEntity -> {
-            if (ordersEntity.getStatus() != 4 ) {
+            if (ordersEntity.getStatus() != 4 && ordersEntity.getStatus() != 0 ) {
                 List<ResturentManuHasOrderEntity> resturentManuHasOrderEntityList = resturantHasOrderRepository.findAllByOrdersEntity(ordersEntity);
                 List<FoodDTO> foodDTOList = new ArrayList<>();
                 resturentManuHasOrderEntityList.forEach(resturentManuHasOrderEntity -> {

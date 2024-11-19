@@ -166,6 +166,32 @@ public class RoomBookingServiceImpl implements RoomBookingService {
     }
 
     @Override
+    public List<ManageRoomBookingDTO> getAllRoomBookingsByCustomer(Integer userId) {
+        List<ManageRoomBookingDTO> bookingDTOList = new ArrayList<>();
+        Optional<CustomerEntity> optionalCustomerEntity = customerRepository.findById(userId);
+        if (optionalCustomerEntity.isPresent()){
+            CustomerEntity customerEntity = optionalCustomerEntity.get();
+            roomBookingRepository.findAllByCustomerEntity02(customerEntity).forEach(roomBookingEntity -> {
+                roomBookingEntity.getCustomerEntity02().setPassword("");
+                roomBookingEntity.getCustomerEntity02().setUserName("");
+                ManageRoomBookingDTO manageBookingDTO = mapper.map(roomBookingEntity, ManageRoomBookingDTO.class);
+                if (roomBookingEntity.getStatus() == 0) {
+                    manageBookingDTO.setStatus("Cancelled");
+                } else if (roomBookingEntity.getStatus() == 1) {
+                    manageBookingDTO.setStatus("Pending");
+                } else if (roomBookingEntity.getStatus() == 2) {
+                    manageBookingDTO.setStatus("CheckIn");
+                } else if (roomBookingEntity.getStatus() == 3) {
+                    manageBookingDTO.setStatus("CheckOut");
+                }
+                bookingDTOList.add(manageBookingDTO);
+            });
+        }
+
+        return bookingDTOList;
+    }
+
+    @Override
     public Map<String, String> customerCheckIn(Integer bookingId) {
         Map<String, String> response = new HashMap<>();
         Optional<RoomBookingEntity> optionalRoomBookingEntity = roomBookingRepository.findById(bookingId);
